@@ -1,0 +1,83 @@
+﻿@model List<MusicApi.Models.Song>
+@using MusicApi.Controllers
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    <a href="~/Song/Delete" class="btn-secondary" id="delete-album-button">Delete Song</a>
+    <a href="~/Song/Create" class="btn-secondary" id="create-album-button">Create Song</a>
+    <a href="~/Song/Update" class="btn-secondary" id="update-album-button">Update Song</a>
+    <br />
+    @if (Model.Count > 0)
+    {
+        <table class="table table-bordered table-striped w-50">
+            <thead>
+                <tr>
+                    <td>
+                        Song
+                    </td>
+                    <td>
+                        Id
+                    </td>
+                    <td>
+                        Length
+                    </td>
+                    <td>
+                        Album
+                    </td>
+                    <td>
+                        Artist
+                    </td>
+                </tr>
+            </thead>
+            @if (Model.Count == 1)
+            {
+                <tr>
+                    <td width="35%">
+                        @Model[0].Name
+                    </td>
+                    <td width="20%">
+                        @Model[0].Id
+                    </td>
+                    <td width="20%">
+                        @Model[0].Length
+                    </td>
+                    <td width="20%">
+                        @SongController.GetAlbumNameById(Model[0].AlbumId)
+                    </td>
+                    <td>
+                        @SongController.GetArtistNameByAlbumId(Model[0].AlbumId)
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (Song song in Model)
+                {
+        <tr>
+            <td width="35%">
+                @song.Name
+            </td>
+            <td width="20%">
+                @song.Id
+            </td>
+            <td width="20%">
+                @song.Length
+            </td>
+            <td width="20%">
+                @SongController.GetAlbumNameById(song.AlbumId)
+            </td>
+            <td>
+                @SongController.GetArtistNameByAlbumId(song.AlbumId)
+            </td>
+        </tr>
+                }
+            }
+        </table>
+    }
+    else
+    {
+        <p>No Song data found</p>
+    }
+}

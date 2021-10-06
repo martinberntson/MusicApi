@@ -1,0 +1,34 @@
+﻿@model List<MusicApi.Models.Song>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<table class="table table-bordered table-striped w-50">
+    <thead>
+        <tr>
+            <td>
+                Song
+            </td>
+            <td>
+                Id
+            </td>
+            <td>
+            </td>
+        </tr>
+    </thead>
+
+    @foreach (Song song in Model)
+    {
+        <tr>
+            <td>
+                @song.Name
+            </td>
+            <td>
+                @song.Id
+            </td>
+            <td><a href="~/Song/Delete/@song.Id" class="btn-dark rounded">Delete</a></td>
+        </tr>
+    }
+</table>

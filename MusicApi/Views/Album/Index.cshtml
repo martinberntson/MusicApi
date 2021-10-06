@@ -1,0 +1,118 @@
+﻿@model List<MusicApi.Models.Album>
+@using MusicApi.Controllers
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    <a href="~/Album/Delete" class="btn-secondary" id="delete-album-button">Delete Album</a>
+    <a href="~/Album/Create" class="btn-secondary" id="create-album-button">Create Album</a>
+    <a href="~/Album/Update" class="btn-secondary" id="update-album-button">Update Album</a>
+    <br />
+    @if (Model.Count > 0)
+    {
+        @if (Model.Count == 1)
+        {
+            <table class="table table-bordered table-striped w-50">
+                <thead>
+                    <tr>
+                        <td>
+                            Album
+                        </td>
+                        <td>
+                            Id
+                        </td>
+                        <td>
+                            Artist
+                        </td>
+                        <td>
+                            Song Count
+                        </td>
+                    </tr>
+                </thead>
+                <tr>
+                    <td width="35%">
+                        @Model[0].Name
+                    </td>
+                    <td width="20%">
+                        @Model[0].Id
+                    </td>
+                    <td width="20%">
+                        @AlbumController.GetArtistNameById(Model[0].ArtistId)
+                    </td>
+                    <td width="20%">
+                        @AlbumController.GetSongCountByAlbumId(Model[0].Id)
+                    </td>
+                </tr>
+            </table>
+            if(AlbumController.GetSongCountByAlbumId(Model[0].Id) > 0)
+            {
+                <table class="table table-bordered table-striped w-50">
+                    <thead>
+                        <tr>
+                            <td width="50%">
+                                Song Name
+                            </td>
+                            <td width="20%">
+                                Id
+                            </td>
+                        </tr>
+                    </thead>
+                    @foreach (Song song in AlbumController.GetSongsByAlbumId(Model[0].Id))
+                    {
+                        <tr>
+                            <td>
+                                @song.Name
+                            </td>
+                            <td>
+                                @song.Id
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        }
+        else
+        {
+        <table class="table table-bordered table-striped w-50">
+            <thead>
+                <tr>
+                    <td>
+                        Album
+                    </td>
+                    <td>
+                        Id
+                    </td>
+                    <td>
+                        Artist
+                    </td>
+                    <td>
+                        Song Count
+                    </td>
+                </tr>
+            </thead>
+            @foreach (Album album in Model)
+            {
+                <tr>
+                    <td width="35%">
+                        @album.Name
+                    </td>
+                    <td width="20%">
+                        @album.Id
+                    </td>
+                    <td>
+                        @AlbumController.GetArtistNameById(album.ArtistId)
+                    </td>
+                    <td width="20%">
+                        @AlbumController.GetSongCountByAlbumId(album.Id)
+                    </td>
+                </tr>
+        }
+        </table>
+        }
+}
+else
+{
+<p>No album data found</p>
+}
+}

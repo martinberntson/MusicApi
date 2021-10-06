@@ -1,0 +1,109 @@
+﻿@model List<MusicApi.Models.Artist>
+@using MusicApi.Controllers
+
+@{
+
+    <a href="~/Artist/Delete" class="btn-secondary" id="delete-artist-button">Delete Artist</a>
+    <a href="~/Artist/Create" class="btn-secondary" id="create-artist-button">Create Artist</a>
+    <a href="~/Artist/Update" class="btn-secondary" id="update-artist-button">Update Artist</a>
+    <br />
+    @if (Model.Count > 0)
+    {
+        @if (Model.Count == 1)
+        {
+            <table class="table table-bordered table-striped w-50">
+                <thead>
+                    <tr>
+                        <td>
+                            Artist
+                        </td>
+                        <td>
+                            Id
+                        </td>
+                        <td>
+                            Album Count
+                        </td>
+                    </tr>
+                </thead>
+                <tr>
+                    <td width="30%">
+                        @Model[0].Name
+                    </td>
+                    <td width="30%">
+                        @Model[0].Id
+                    </td>
+                    <td width="30%">
+                        @ArtistController.GetAlbumCountByArtistId(Model[0].Id)
+                    </td>
+                </tr>
+            </table>
+            @if (ArtistController.GetAlbumCountByArtistId(Model[0].Id) > 0)
+            {
+                <table class="table table-bordered table-striped w-50">
+                    <thead>
+                        <tr>
+                            <td width="50%">
+                                Album Name
+                            </td>
+                            <td width="20%">
+                                Id
+                            </td>
+                        </tr>
+                    </thead>
+                    @foreach (Album album in ArtistController.GetAlbumsByArtistId(Model[0].Id))
+                    {
+                        <tr>
+                            <td>
+                                @album.Name
+                            </td>
+                            <td>
+                                @album.Id
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+            }
+
+        }
+        else
+        {
+            <table class="table table-bordered table-striped w-50">
+                <thead>
+                    <tr>
+                        <td>
+                            Artist
+                        </td>
+                        <td>
+                            Id
+                        </td>
+                        @if (Model.Count != 1)
+                        {
+                            <td>
+                                Album Count
+                            </td>
+                        }
+                    </tr>
+                </thead>
+                @foreach (Artist artist in Model)
+                {
+                    <tr>
+                        <td width="30%">
+                            @artist.Name
+                        </td>
+                        <td width="30%">
+                            @artist.Id
+                        </td>
+                        <td width="30%">
+                            @ArtistController.GetAlbumCountByArtistId(artist.Id)
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    }
+    else
+    {
+        <p>No artist data found</p>
+    }
+}
